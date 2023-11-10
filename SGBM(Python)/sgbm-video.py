@@ -3,7 +3,7 @@ import numpy as np
 import time
 import random
 import math
-
+# import camera_figue as * # 把相机参数保存到另外一个文件之中，实现主程序的简化
 # -----------------------------------双目相机的基本参数---------------------------------------------------------
 #   left_camera_matrix          左相机的内参矩阵
 #   right_camera_matrix         右相机的内参矩阵
@@ -119,8 +119,7 @@ while ret:
     # 计算出的threeD，需要乘以16，才等于现实中的距离
     threeD = threeD * 16
 
-    # 鼠标回调事件
-    cv2.setMouseCallback("depth", onmouse_pick_points, threeD)
+    
 
     #完成计时，计算帧率
     fps = (fps + (1. / (time.time() - t1))) / 2
@@ -129,6 +128,9 @@ while ret:
     cv2.imshow("depth", dis_color)
     cv2.imshow("left", frame1)
     cv2.imshow(WIN_NAME, disp)  # 显示深度图的双目画面
+
+    # 鼠标回调事件 这个操作太靠前会报错 NULL window handler in function，我搜了一波说是没有和窗口绑定那个意思
+    cv2.setMouseCallback("depth", onmouse_pick_points, threeD)
     # 若键盘按下q则退出播放
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
